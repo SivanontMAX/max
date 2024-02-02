@@ -13,20 +13,43 @@
 # limitations under the License.
 
 import streamlit as st
+import pandas as pd
+import matplotlib.pyplot as plt
 from streamlit.logger import get_logger
 
 LOGGER = get_logger(__name__)
 
 
 def run():
+  
     st.set_page_config(
         page_title="Hello",
         page_icon="👋",
     )
-
+    
     st.write("# Welcome to Streamlit! 👋")
-
+    
     st.sidebar.success("Select a demo above.")
+    st.title('อ่านและแสดงข้อมูลจากไฟล์ CSV')
+    uploaded_file = st.file_uploader("อัปโหลดไฟล์ CSV ของคุณที่นี่", type=["csv"])
+
+    if uploaded_file is not None:
+    
+       df = pd.read_csv(uploaded_file) 
+       st.write("ข้อมูลจากไฟล์ CSV:")
+       st.dataframe(df)
+        
+       column_options = df.columns.tolist()
+       x_axis = st.selectbox('เลือกคอลัมน์สำหรับแกน X:', column_options, index=0)
+       y_axis = st.selectbox('เลือกคอลัมน์สำหรับแกน Y:', column_options, index=1)
+
+  
+       plt.figure(figsize=(10, 4))
+       plt.plot(df[x_axis], df[y_axis], marker='o')
+       plt.title('กราฟเส้นจากข้อมูล CSV')
+       plt.xlabel(x_axis)
+       plt.ylabel(y_axis)
+       st.pyplot(plt)
 
     st.markdown(
         """
