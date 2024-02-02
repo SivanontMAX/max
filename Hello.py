@@ -14,7 +14,6 @@
 
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
 from streamlit.logger import get_logger
 
 LOGGER = get_logger(__name__)
@@ -38,18 +37,12 @@ def run():
        df = pd.read_csv(uploaded_file) 
        st.write("ข้อมูลจากไฟล์ CSV:")
        st.dataframe(df)
-        
-       column_options = df.columns.tolist()
-       x_axis = st.selectbox('เลือกคอลัมน์สำหรับแกน X:', column_options, index=0)
-       y_axis = st.selectbox('เลือกคอลัมน์สำหรับแกน Y:', column_options, index=1)
-
-  
-       plt.figure(figsize=(10, 4))
-       plt.plot(df[x_axis], df[y_axis], marker='o')
-       plt.title('กราฟเส้นจากข้อมูล CSV')
-       plt.xlabel(x_axis)
-       plt.ylabel(y_axis)
-       st.pyplot(plt)
+       if 'time' in df.columns:
+           df['time'] = pd.to_datetime(df['time'], format='%H:%M:%S').dt.time
+           df = df.set_index('time')
+           st.line_chart(df)
+       else:
+           st.error("ไม่พบคอลัมน์ 'time' ในไฟล์ CSV ที่อัปโหลด.")
 
     st.markdown(
         """
@@ -58,7 +51,7 @@ def run():
         **👈 Select a demo from the sidebar** to see some examples
         of what Streamlit can do!
         ### Want to learn more?
-        - TEST22 [streamlit.io](https://streamlit.io)
+        - TTTTTasd [streamlit.io](https://streamlit.io)
         - Jump into our [documentation](https://docs.streamlit.io)
         - Ask a question in our [community
           forums](https://discuss.streamlit.io)
@@ -66,6 +59,7 @@ def run():
         - Use a neural net to [analyze the Udacity Self-driving Car Image
           Dataset](https://github.com/streamlit/demo-self-driving)
         - Explore a [New York City rideshare dataset](https://github.com/streamlit/demo-uber-nyc-pickups)
+        
     """
     )
 
