@@ -38,7 +38,7 @@ def run():
        st.write("ข้อมูลจากไฟล์ CSV:")
        st.dataframe(df)
        if 'time' in df.columns:
-           df['time'] = pd.to_datetime(df['time'], format='%H:%M:%S').dt.time
+           df['time'] = pd.to_datetime(df['time']).dt.time
            df = df.set_index('time')
            st.line_chart(df)
        else:
