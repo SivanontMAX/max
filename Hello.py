@@ -26,7 +26,7 @@ def run():
         page_icon="👋",
     )
     
-    st.write("# Welcome to Streamlit! 👋")
+    st.write("# s 👋")
     
     st.sidebar.success("Select a demo above.")
     st.title('อ่านและแสดงข้อมูลจากไฟล์ CSV')
